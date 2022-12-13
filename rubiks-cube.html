@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+
+<html>
+
+  <head>
+    <title>Rubiks Cube Solver</title>
+
+    <link rel="stylesheet" href="CSS/cube.css">
+
+  </head>
+
+  <body>
+
+    <div class="webpage">
+      <div class="cube-actions-container">
+
+        <div class="turn-button-container-flex">
+          <p>Counterclockwise Rotations</p>
+          <div class="turn-button-container">
+            <button class="turn-button" title="Right Prime" onclick="rotate('right prime', true, true)">R'</button>
+            <button class="turn-button" title="Up Prime" onclick="rotate('up prime', true, true)">U'</button>
+            <button class="turn-button" title="Front Prime" onclick="rotate('front prime', true, true)">F'</button>
+            <button class="turn-button" title="Left Prime" onclick="rotate('left prime', true, true)">L'</button>
+            <button class="turn-button" title="Down Prime" onclick="rotate('down prime', true, true)">D'</button>
+            <button class="turn-button" title="Back Prime" onclick="rotate('back prime', true, true)">B'</button>
+            <button class="turn-button" title="x-axis Prime" onclick="rotate('x prime', true, true)">x'</button>
+            <button class="turn-button" title="y-axis Prime" onclick="rotate('y prime', true, true)">y'</button>
+            <button class="turn-button" title="z-axis Prime" onclick="rotate('z prime', true, true)">z'</button>
+          </div>
+        </div>
+
+        <div class="cube">
+          <div id="block-face-0" class="cube-face top block-face-0" title="Up"></div>
+          <div id="block-face-1" class="cube-face top block-face-1" title="Up"></div>
+          <div id="block-face-2" class="cube-face top block-face-2" title="Up"></div>
+          <div id="block-face-3" class="cube-face top block-face-3" title="Up"></div>
+          <div id="block-face-4" class="cube-face top block-face-4" title="Up"></div>
+          <div id="block-face-5" class="cube-face top block-face-5" title="Up"></div>
+          <div id="block-face-6" class="cube-face top block-face-6" title="Up"></div>
+          <div id="block-face-7" class="cube-face top block-face-7" title="Up"></div>
+          <div id="block-face-8" class="cube-face top block-face-8" title="Up"></div>
+    
+          <div id="block-face-9" class="cube-face left block-face-9" title="Front"></div>
+          <div id="block-face-10" class="cube-face left block-face-10" title="Front"></div>
+          <div id="block-face-11" class="cube-face left block-face-11" title="Front"></div>
+          <div id="block-face-12" class="cube-face left block-face-12" title="Front"></div>
+          <div id="block-face-13" class="cube-face left block-face-13" title="Front"></div>
+          <div id="block-face-14" class="cube-face left block-face-14" title="Front"></div>
+          <div id="block-face-15" class="cube-face left block-face-15" title="Front"></div>
+          <div id="block-face-16" class="cube-face left block-face-16" title="Front"></div>
+          <div id="block-face-17" class="cube-face left block-face-17" title="Front"></div>
+    
+          <div id="block-face-18" class="cube-face right block-face-18" title="Right"></div>
+          <div id="block-face-19" class="cube-face right block-face-19" title="Right"></div>
+          <div id="block-face-20" class="cube-face right block-face-20" title="Right"></div>
+          <div id="block-face-21" class="cube-face right block-face-21" title="Right"></div>
+          <div id="block-face-22" class="cube-face right block-face-22" title="Right"></div>
+          <div id="block-face-23" class="cube-face right block-face-23" title="Right"></div>
+          <div id="block-face-24" class="cube-face right block-face-24" title="Right"></div>
+          <div id="block-face-25" class="cube-face right block-face-25" title="Right"></div>
+          <div id="block-face-26" class="cube-face right block-face-26" title="Right"></div>
+            
+        </div>
+
+        
+        <div class="turn-button-container-flex">
+          <p>Clockwise Rotations</p>
+          <div class="turn-button-container">
+            <button class="turn-button" title="Right" onclick="rotate('right', true, true)">R</button>
+            <button class="turn-button" title="Up" onclick="rotate('up', true, true)">U</button>
+            <button class="turn-button" title="Front" onclick="rotate('front', true, true)">F</button>
+            <button class="turn-button" title="Left" onclick="rotate('left', true, true)">L</button>
+            <button class="turn-button" title="Down" onclick="rotate('down', true, true)">D</button>
+            <button class="turn-button" title="Back" onclick="rotate('back', true, true)">B</button>
+            <button class="turn-button" title="x-axis" onclick="rotate('x', true, true)">x</button>
+            <button class="turn-button" title="y-axis" onclick="rotate('y', true, true)">y</button>
+            <button class="turn-button" title="z-axis" onclick="rotate('z', true, true)">z</button>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="shuffle-solve-flex">
+        <div class="shuffle-solve-container">
+          <button class="shuffle-button" onclick="shuffleCube()">Shuffle</button>
+          <div class="delay-range-container">
+            <p id="delay-range-text" class="delay-range-text"></p>
+            <input type="range" min="0" max="1000" value = "100" id="delay-range" oninput="updateDelayRange()">
+          </div>
+          <button class="solve-button" onclick="solveCube()">Solve</button>
+        </div>
+      </div>
+      
+
+      <div class="rotation-log-container">
+        <div class="rotation-log-title-bar">
+          <button class="add-divider-button" onclick="addToRotationLog('divider', 'none')">Add Divider To Log</button>
+          <p class="rotation-log-title">Rotation Log</p>
+          <button class="clear-log-button" onclick="clearRotationLog()">Clear Rotation Log</button>
+        </div>
+        <div id="rotation-log" class="rotation-log">
+          <p id="rotation-log-text" class="rotation-log-text"></p>
+        </div>
+      </div>
+
+    </div>
+
+    <script>
+
+      let rotateDelay = 100;
+
+      let solvingLog = [];
+
+      let cube = {
+        pieces: [],
+        edges: [],
+        corners: []
+      }
+
+      function initializePieces () {
+        //                     name | front   | back    | left    | right   | up     | down
+        cube.pieces.push(new Pieces('OWB', '.'     , 'orange', 'white' , '.'     , 'blue'  , '.'     ));
+        cube.pieces.push(new Pieces('OB' , '.'     , 'orange', '.'     , '.'     , 'blue'  , '.'     ));
+        cube.pieces.push(new Pieces('OYB', '.'     , 'orange', '.'     , 'yellow', 'blue'  , '.'     ));
+        cube.pieces.push(new Pieces('WB' , '.'     , '.'     , 'white' , '.'     , 'blue'  , '.'     ));
+        cube.pieces.push(new Pieces('B'  , '.'     , '.'     , '.'     , '.'     , 'blue'  , '.'     ));
+        cube.pieces.push(new Pieces('YB' , '.'     , '.'     , '.'     , 'yellow', 'blue'  , '.'     ));
+        cube.pieces.push(new Pieces('RWB', 'red'   , '.'     , 'white' , '.'     , 'blue'  , '.'     ));
+        cube.pieces.push(new Pieces('RB' , 'red'   , '.'     , '.'     , '.'     , 'blue'  , '.'     ));
+        cube.pieces.push(new Pieces('RYB', 'red'   , '.'     , '.'     , 'yellow', 'blue'  , '.'     ));
+        
+        cube.pieces.push(new Pieces('OW' , '.'     , 'orange', 'white' , '.'     , '.'     , '.'     ));
+        cube.pieces.push(new Pieces('O'  , '.'     , 'orange', '.'     , '.'     , '.'     , '.'     ));
+        cube.pieces.push(new Pieces('OY' , '.'     , 'orange', '.'     , 'yellow', '.'     , '.'     ));
+        cube.pieces.push(new Pieces('W'  , '.'     , '.'     , 'white' , '.'     , '.'     , '.'     ));
+        cube.pieces.push(new Pieces('Y'  , '.'     , '.'     , '.'     , 'yellow', '.'     , '.'     ));
+        cube.pieces.push(new Pieces('RW' , 'red'   , '.'     , 'white' , '.'     , '.'     , '.'     ));
+        cube.pieces.push(new Pieces('R'  , 'red'   , '.'     , '.'     , '.'     , '.'     , '.'     ));
+        cube.pieces.push(new Pieces('RY' , 'red'   , '.'     , '.'     , 'yellow', '.'     , '.'     ));
+        
+        cube.pieces.push(new Pieces('OWG', '.'     , 'orange', 'white' , '.'     , '.'     , 'green' ));
+        cube.pieces.push(new Pieces('OG' , '.'     , 'orange', '.'     , '.'     , '.'     , 'green' ));
+        cube.pieces.push(new Pieces('OYG', '.'     , 'orange', '.'     , 'yellow', '.'     , 'green' ));
+        cube.pieces.push(new Pieces('WG' , '.'     , '.'     , 'white' , '.'     , '.'     , 'green' ));
+        cube.pieces.push(new Pieces('G'  , '.'     , '.'     , '.'     , '.'     , '.'     , 'green' ));
+        cube.pieces.push(new Pieces('YG' , '.'     , '.'     , '.'     , 'yellow', '.'     , 'green' ));
+        cube.pieces.push(new Pieces('RWG', 'red'   , '.'     , 'white' , '.'     , '.'     , 'green' ));
+        cube.pieces.push(new Pieces('RG' , 'red'   , '.'     , '.'     , '.'     , '.'     , 'green' ));
+        cube.pieces.push(new Pieces('RYG', 'red'   , '.'     , '.'     , 'yellow', '.'     , 'green' ));
+
+      }
+
+      function updateEdges () {
+        cube.edges.length = 0;
+        cube.edges.push(cube.pieces[1]);
+        cube.edges.push(cube.pieces[3]);
+        cube.edges.push(cube.pieces[5]);
+        cube.edges.push(cube.pieces[7]);
+        cube.edges.push(cube.pieces[9]);
+        cube.edges.push(cube.pieces[11]);
+        cube.edges.push(cube.pieces[14]);
+        cube.edges.push(cube.pieces[16]);
+        cube.edges.push(cube.pieces[18]);
+        cube.edges.push(cube.pieces[20]);
+        cube.edges.push(cube.pieces[22]);
+        cube.edges.push(cube.pieces[24]);
+      }
+
+      function updateCorners () {
+        cube.corners.length = 0;
+        cube.corners.push(cube.pieces[0]);
+        cube.corners.push(cube.pieces[2]);
+        cube.corners.push(cube.pieces[6]);
+        cube.corners.push(cube.pieces[8]);
+        cube.corners.push(cube.pieces[17]);
+        cube.corners.push(cube.pieces[19]);
+        cube.corners.push(cube.pieces[23]);
+        cube.corners.push(cube.pieces[25]);
+      }
+
+      function initializeCube () {
+        initializePieces();
+        updateEdges();
+        updateCorners();
+      }
+
+      function rotateVisuals(turnType) {
+
+        if (turnType == 'right') {
+          document.getElementById('block-face-2').style.backgroundColor = cube.pieces[8].front;
+          document.getElementById('block-face-5').style.backgroundColor = cube.pieces[16].front;
+          document.getElementById('block-face-8').style.backgroundColor = cube.pieces[25].front;
+
+          document.getElementById('block-face-11').style.backgroundColor = cube.pieces[25].down;
+          document.getElementById('block-face-14').style.backgroundColor = cube.pieces[22].down;
+          document.getElementById('block-face-17').style.backgroundColor = cube.pieces[19].down;
+
+          document.getElementById('block-face-18').style.backgroundColor = cube.pieces[25].right;
+          document.getElementById('block-face-20').style.backgroundColor = cube.pieces[8].right;
+          document.getElementById('block-face-26').style.backgroundColor = cube.pieces[2].right;
+          document.getElementById('block-face-24').style.backgroundColor = cube.pieces[19].right;
+
+          document.getElementById('block-face-19').style.backgroundColor = cube.pieces[16].right;
+          document.getElementById('block-face-23').style.backgroundColor = cube.pieces[5].right;
+          document.getElementById('block-face-25').style.backgroundColor = cube.pieces[11].right;
+          document.getElementById('block-face-21').style.backgroundColor = cube.pieces[22].right;
+
+        } if (turnType == 'right prime') {
+          document.getElementById('block-face-2').style.backgroundColor = cube.pieces[19].back;
+          document.getElementById('block-face-5').style.backgroundColor = cube.pieces[11].back;
+          document.getElementById('block-face-8').style.backgroundColor = cube.pieces[2].back;
+
+          document.getElementById('block-face-11').style.backgroundColor = cube.pieces[2].up;
+          document.getElementById('block-face-14').style.backgroundColor = cube.pieces[5].up;
+          document.getElementById('block-face-17').style.backgroundColor = cube.pieces[8].up;
+
+          document.getElementById('block-face-18').style.backgroundColor = cube.pieces[2].right;
+          document.getElementById('block-face-20').style.backgroundColor = cube.pieces[19].right;
+          document.getElementById('block-face-26').style.backgroundColor = cube.pieces[25].right;
+          document.getElementById('block-face-24').style.backgroundColor = cube.pieces[8].right;
+
+          document.getElementById('block-face-19').style.backgroundColor = cube.pieces[11].right;
+          document.getElementById('block-face-23').style.backgroundColor = cube.pieces[22].right;
+          document.getElementById('block-face-25').style.backgroundColor = cube.pieces[16].right;
+          document.getElementById('block-face-21').style.backgroundColor = cube.pieces[5].right;
+
+        } else if (turnType == 'left') {
+          document.getElementById('block-face-0').style.backgroundColor = cube.pieces[17].back;
+          document.getElementById('block-face-3').style.backgroundColor = cube.pieces[9].back;
+          document.getElementById('block-face-6').style.backgroundColor = cube.pieces[0].back;
+
+          document.getElementById('block-face-9').style.backgroundColor = cube.pieces[0].up;
+          document.getElementById('block-face-12').style.backgroundColor = cube.pieces[3].up;
+          document.getElementById('block-face-15').style.backgroundColor = cube.pieces[6].up;
+
+        } else if (turnType == 'left prime') {
+          document.getElementById('block-face-0').style.backgroundColor = cube.pieces[6].front;
+          document.getElementById('block-face-3').style.backgroundColor = cube.pieces[14].front;
+          document.getElementById('block-face-6').style.backgroundColor = cube.pieces[23].front;
+
+          document.getElementById('block-face-9').style.backgroundColor = cube.pieces[23].down;
+          document.getElementById('block-face-12').style.backgroundColor = cube.pieces[20].down;
+          document.getElementById('block-face-15').style.backgroundColor = cube.pieces[17].down;
+
+        } else if (turnType == 'up') {
+          document.getElementById('block-face-20').style.backgroundColor = cube.pieces[0].back;
+          document.getElementById('block-face-19').style.backgroundColor = cube.pieces[1].back;
+          document.getElementById('block-face-18').style.backgroundColor = cube.pieces[2].back;
+
+          document.getElementById('block-face-11').style.backgroundColor = cube.pieces[2].right;
+          document.getElementById('block-face-10').style.backgroundColor = cube.pieces[5].right;
+          document.getElementById('block-face-9').style.backgroundColor = cube.pieces[8].right;
+
+          document.getElementById('block-face-0').style.backgroundColor = cube.pieces[6].up;
+          document.getElementById('block-face-2').style.backgroundColor = cube.pieces[0].up;
+          document.getElementById('block-face-8').style.backgroundColor = cube.pieces[2].up;
+          document.getElementById('block-face-6').style.backgroundColor = cube.pieces[8].up;
+
+          document.getElementById('block-face-1').style.backgroundColor = cube.pieces[3].up;
+          document.getElementById('block-face-5').style.backgroundColor = cube.pieces[1].up;
+          document.getElementById('block-face-7').style.backgroundColor = cube.pieces[5].up;
+          document.getElementById('block-face-3').style.backgroundColor = cube.pieces[7].up;
+
+        } else if (turnType == 'up prime') {
+          document.getElementById('block-face-20').style.backgroundColor = cube.pieces[8].front;
+          document.getElementById('block-face-19').style.backgroundColor = cube.pieces[7].front;
+          document.getElementById('block-face-18').style.backgroundColor = cube.pieces[6].front;
+
+          document.getElementById('block-face-11').style.backgroundColor = cube.pieces[6].left;
+          document.getElementById('block-face-10').style.backgroundColor = cube.pieces[3].left;
+          document.getElementById('block-face-9').style.backgroundColor = cube.pieces[0].left;
+
+          document.getElementById('block-face-0').style.backgroundColor = cube.pieces[2].up;
+          document.getElementById('block-face-2').style.backgroundColor = cube.pieces[8].up;
+          document.getElementById('block-face-8').style.backgroundColor = cube.pieces[6].up;
+          document.getElementById('block-face-6').style.backgroundColor = cube.pieces[0].up;
+
+          document.getElementById('block-face-1').style.backgroundColor = cube.pieces[5].up;
+          document.getElementById('block-face-5').style.backgroundColor = cube.pieces[7].up;
+          document.getElementById('block-face-7').style.backgroundColor = cube.pieces[3].up;
+          document.getElementById('block-face-3').style.backgroundColor = cube.pieces[1].up;
+
+        } else if (turnType == 'down') {
+          document.getElementById('block-face-26').style.backgroundColor = cube.pieces[25].front;
+          document.getElementById('block-face-25').style.backgroundColor = cube.pieces[24].front;
+          document.getElementById('block-face-24').style.backgroundColor = cube.pieces[23].front;
+
+          document.getElementById('block-face-17').style.backgroundColor = cube.pieces[23].left;
+          document.getElementById('block-face-16').style.backgroundColor = cube.pieces[20].left;
+          document.getElementById('block-face-15').style.backgroundColor = cube.pieces[17].left;
+
+        } else if (turnType == 'down prime') {
+          document.getElementById('block-face-26').style.backgroundColor = cube.pieces[17].back;
+          document.getElementById('block-face-25').style.backgroundColor = cube.pieces[18].back;
+          document.getElementById('block-face-24').style.backgroundColor = cube.pieces[19].back;
+
+          document.getElementById('block-face-17').style.backgroundColor = cube.pieces[19].right;
+          document.getElementById('block-face-16').style.backgroundColor = cube.pieces[22].right;
+          document.getElementById('block-face-15').style.backgroundColor = cube.pieces[25].right;
+
+        } else if (turnType == 'front') {
+          document.getElementById('block-face-6').style.backgroundColor = cube.pieces[23].left;
+          document.getElementById('block-face-7').style.backgroundColor = cube.pieces[14].left;
+          document.getElementById('block-face-8').style.backgroundColor = cube.pieces[6].left;
+
+          document.getElementById('block-face-18').style.backgroundColor = cube.pieces[6].up;
+          document.getElementById('block-face-21').style.backgroundColor = cube.pieces[7].up;
+          document.getElementById('block-face-24').style.backgroundColor = cube.pieces[8].up;
+
+          document.getElementById('block-face-9').style.backgroundColor = cube.pieces[23].front;
+          document.getElementById('block-face-11').style.backgroundColor = cube.pieces[6].front;
+          document.getElementById('block-face-17').style.backgroundColor = cube.pieces[8].front;
+          document.getElementById('block-face-15').style.backgroundColor = cube.pieces[25].front;
+
+          document.getElementById('block-face-10').style.backgroundColor = cube.pieces[14].front;
+          document.getElementById('block-face-14').style.backgroundColor = cube.pieces[7].front;
+          document.getElementById('block-face-16').style.backgroundColor = cube.pieces[16].front;
+          document.getElementById('block-face-12').style.backgroundColor = cube.pieces[24].front;
+
+        } else if (turnType == 'front prime') {
+          document.getElementById('block-face-6').style.backgroundColor = cube.pieces[8].right;
+          document.getElementById('block-face-7').style.backgroundColor = cube.pieces[16].right;
+          document.getElementById('block-face-8').style.backgroundColor = cube.pieces[25].right;
+
+          document.getElementById('block-face-18').style.backgroundColor = cube.pieces[25].down;
+          document.getElementById('block-face-21').style.backgroundColor = cube.pieces[24].down;
+          document.getElementById('block-face-24').style.backgroundColor = cube.pieces[23].down;
+
+          document.getElementById('block-face-9').style.backgroundColor = cube.pieces[8].front;
+          document.getElementById('block-face-11').style.backgroundColor = cube.pieces[25].front;
+          document.getElementById('block-face-17').style.backgroundColor = cube.pieces[23].front;
+          document.getElementById('block-face-15').style.backgroundColor = cube.pieces[6].front;
+
+          document.getElementById('block-face-10').style.backgroundColor = cube.pieces[16].front;
+          document.getElementById('block-face-14').style.backgroundColor = cube.pieces[24].front;
+          document.getElementById('block-face-16').style.backgroundColor = cube.pieces[14].front;
+          document.getElementById('block-face-12').style.backgroundColor = cube.pieces[7].front;
+
+        } else if (turnType == 'back') {
+          document.getElementById('block-face-0').style.backgroundColor = cube.pieces[2].right;
+          document.getElementById('block-face-1').style.backgroundColor = cube.pieces[11].right;
+          document.getElementById('block-face-2').style.backgroundColor = cube.pieces[19].right;
+
+          document.getElementById('block-face-20').style.backgroundColor = cube.pieces[19].down;
+          document.getElementById('block-face-23').style.backgroundColor = cube.pieces[18].down;
+          document.getElementById('block-face-26').style.backgroundColor = cube.pieces[17].down;
+
+        } else if (turnType == 'back prime') {
+          document.getElementById('block-face-0').style.backgroundColor = cube.pieces[17].left;
+          document.getElementById('block-face-1').style.backgroundColor = cube.pieces[9].left;
+          document.getElementById('block-face-2').style.backgroundColor = cube.pieces[0].left;
+
+          document.getElementById('block-face-20').style.backgroundColor = cube.pieces[0].up;
+          document.getElementById('block-face-23').style.backgroundColor = cube.pieces[1].up;
+          document.getElementById('block-face-26').style.backgroundColor = cube.pieces[2].up;
+
+        } else if (turnType == 'x') {
+          rotateVisuals('right');
+          rotateVisuals('left prime');
+
+          document.getElementById('block-face-1').style.backgroundColor = cube.pieces[7].front;
+          document.getElementById('block-face-4').style.backgroundColor = cube.pieces[15].front;
+          document.getElementById('block-face-7').style.backgroundColor = cube.pieces[24].front;
+
+          document.getElementById('block-face-10').style.backgroundColor = cube.pieces[24].down;
+          document.getElementById('block-face-13').style.backgroundColor = cube.pieces[21].down;
+          document.getElementById('block-face-16').style.backgroundColor = cube.pieces[18].down;
+
+        } else if (turnType == 'x prime') {
+          rotateVisuals('right prime');
+          rotateVisuals('left');
+
+          document.getElementById('block-face-1').style.backgroundColor = cube.pieces[18].back;
+          document.getElementById('block-face-4').style.backgroundColor = cube.pieces[10].back;
+          document.getElementById('block-face-7').style.backgroundColor = cube.pieces[1].back;
+
+          document.getElementById('block-face-10').style.backgroundColor = cube.pieces[1].up;
+          document.getElementById('block-face-13').style.backgroundColor = cube.pieces[4].up;
+          document.getElementById('block-face-16').style.backgroundColor = cube.pieces[7].up;
+
+        } else if (turnType == 'y') {
+          rotateVisuals('up');
+          rotateVisuals('down prime');
+
+          document.getElementById('block-face-23').style.backgroundColor = cube.pieces[9].back;
+          document.getElementById('block-face-22').style.backgroundColor = cube.pieces[10].back;
+          document.getElementById('block-face-21').style.backgroundColor = cube.pieces[11].back;
+
+          document.getElementById('block-face-14').style.backgroundColor = cube.pieces[11].right;
+          document.getElementById('block-face-13').style.backgroundColor = cube.pieces[13].right;
+          document.getElementById('block-face-12').style.backgroundColor = cube.pieces[16].right;
+
+        } else if (turnType == 'y prime') {
+          rotateVisuals('up prime');
+          rotateVisuals('down');
+
+          document.getElementById('block-face-23').style.backgroundColor = cube.pieces[16].front;
+          document.getElementById('block-face-22').style.backgroundColor = cube.pieces[15].front;
+          document.getElementById('block-face-21').style.backgroundColor = cube.pieces[14].front;
+
+          document.getElementById('block-face-14').style.backgroundColor = cube.pieces[14].left;
+          document.getElementById('block-face-13').style.backgroundColor = cube.pieces[12].left;
+          document.getElementById('block-face-12').style.backgroundColor = cube.pieces[9].left;
+
+        } else if (turnType == 'z') {
+          rotateVisuals('front');
+          rotateVisuals('back prime');
+
+          document.getElementById('block-face-3').style.backgroundColor = cube.pieces[20].left;
+          document.getElementById('block-face-4').style.backgroundColor = cube.pieces[12].left;
+          document.getElementById('block-face-5').style.backgroundColor = cube.pieces[3].left;
+
+          document.getElementById('block-face-19').style.backgroundColor = cube.pieces[3].up;
+          document.getElementById('block-face-22').style.backgroundColor = cube.pieces[4].up;
+          document.getElementById('block-face-25').style.backgroundColor = cube.pieces[5].up;
+
+        } else if (turnType == 'z prime') {
+          rotateVisuals('front prime');
+          rotateVisuals('back');
+
+          document.getElementById('block-face-3').style.backgroundColor = cube.pieces[5].right;
+          document.getElementById('block-face-4').style.backgroundColor = cube.pieces[13].right;
+          document.getElementById('block-face-5').style.backgroundColor = cube.pieces[22].right;
+
+          document.getElementById('block-face-19').style.backgroundColor = cube.pieces[22].down;
+          document.getElementById('block-face-22').style.backgroundColor = cube.pieces[21].down;
+          document.getElementById('block-face-25').style.backgroundColor = cube.pieces[20].down;
+
+        } 
+
+      }
+
+      function rotateData(turnType) {
+        let sendingDataPiece;
+        let receivingDataPiece;
+        let tempDataPiece;
+
+        if (turnType == 'right') {
+          rotateEdgesCornersOrCenters(turnType, 2, 8, 25, 19);
+          rotateEdgesCornersOrCenters(turnType, 5, 16, 22, 11);
+
+        } else if (turnType == 'right prime') {
+          rotateEdgesCornersOrCenters(turnType, 8, 2, 19, 25);
+          rotateEdgesCornersOrCenters(turnType, 5, 11, 22, 16);
+
+        } else if (turnType == 'left') {
+          rotateEdgesCornersOrCenters(turnType, 6, 0, 17, 23);
+          rotateEdgesCornersOrCenters(turnType, 3, 9, 20, 14);
+
+        } else if (turnType == 'left prime') {
+          rotateEdgesCornersOrCenters(turnType, 0, 6, 23, 17);
+          rotateEdgesCornersOrCenters(turnType, 3, 14, 20, 9);
+
+        } else if (turnType == 'up') {
+          rotateEdgesCornersOrCenters(turnType, 8, 2, 0, 6);
+          rotateEdgesCornersOrCenters(turnType, 7, 5, 1, 3);
+                                      
+        } else if (turnType == 'up prime') {
+          rotateEdgesCornersOrCenters(turnType, 8, 6, 0, 2);
+          rotateEdgesCornersOrCenters(turnType, 7, 3, 1, 5);
+                                      
+        } else if (turnType == 'down') {
+          rotateEdgesCornersOrCenters(turnType, 25, 23, 17, 19);
+          rotateEdgesCornersOrCenters(turnType, 24, 20, 18, 22);
+                                      
+        } else if (turnType == 'down prime') {
+          rotateEdgesCornersOrCenters(turnType, 25, 19, 17, 23);
+          rotateEdgesCornersOrCenters(turnType, 24, 22, 18, 20);
+                                      
+        } else if (turnType == 'front') {
+          rotateEdgesCornersOrCenters(turnType, 8, 6, 23, 25);
+          rotateEdgesCornersOrCenters(turnType, 7, 14, 24, 16);
+                                      
+        } else if (turnType == 'front prime') {
+          rotateEdgesCornersOrCenters(turnType, 8, 25, 23, 6);
+          rotateEdgesCornersOrCenters(turnType, 7, 16, 24, 14);
+                                      
+        } else if (turnType == 'back') {
+          rotateEdgesCornersOrCenters(turnType, 2, 19, 17, 0);
+          rotateEdgesCornersOrCenters(turnType, 1, 11, 18, 9);
+                                      
+        } else if (turnType == 'back prime') {
+          rotateEdgesCornersOrCenters(turnType, 2, 0, 17, 19);
+          rotateEdgesCornersOrCenters(turnType, 1, 9, 18, 11);
+                                      
+        } else if (turnType == 'x') {
+          rotateData('right');
+          rotateData('left prime');
+
+          rotateEdgesCornersOrCenters(turnType, 7, 24, 18, 1);
+          rotateEdgesCornersOrCenters(turnType, 4, 15, 21, 10);
+                                      
+        } else if (turnType == 'x prime') {
+          rotateData('right prime');
+          rotateData('left');
+
+          rotateEdgesCornersOrCenters(turnType, 7, 1, 18, 24);
+          rotateEdgesCornersOrCenters(turnType, 4, 10, 21, 15);
+                                      
+        } else if (turnType == 'y') {
+          rotateData('up');
+          rotateData('down prime');
+
+          rotateEdgesCornersOrCenters(turnType, 16, 11, 9, 14);
+          rotateEdgesCornersOrCenters(turnType, 15, 13, 10, 12);
+                                      
+        } else if (turnType == 'y prime') {
+          rotateData('up prime');
+          rotateData('down');
+
+          rotateEdgesCornersOrCenters(turnType, 16, 14, 9, 11);
+          rotateEdgesCornersOrCenters(turnType, 15, 12, 10, 13);
+                                      
+        } else if (turnType == 'z') {
+          rotateData('front');
+          rotateData('back prime');
+
+          rotateEdgesCornersOrCenters(turnType, 5, 3, 20, 22);
+          rotateEdgesCornersOrCenters(turnType, 4, 12, 21, 13);
+                                      
+        } else if (turnType == 'z prime') {
+          rotateData('front prime');
+          rotateData('back');
+
+          rotateEdgesCornersOrCenters(turnType, 5, 22, 20, 3);
+          rotateEdgesCornersOrCenters(turnType, 4, 13, 21, 12);
+                                      
+        }
+
+      }
+
+      function rotateEdgesCornersOrCenters(turnType, pieceA, pieceB, pieceC, pieceD) {
+          let sendingDataPiece = cube.pieces[pieceA];
+          let tempDataPiece = storeTempData(sendingDataPiece);
+
+          let receivingDataPiece = sendingDataPiece;
+          sendingDataPiece = cube.pieces[pieceB];
+          swapPieceData(receivingDataPiece, sendingDataPiece, turnType);
+          receivingDataPiece = sendingDataPiece;
+          sendingDataPiece = cube.pieces[pieceC];
+          swapPieceData(receivingDataPiece, sendingDataPiece, turnType);
+          receivingDataPiece = sendingDataPiece;
+          sendingDataPiece = cube.pieces[pieceD];
+          swapPieceData(receivingDataPiece, sendingDataPiece, turnType);
+          receivingDataPiece = sendingDataPiece;
+          sendingDataPiece = tempDataPiece;
+          swapPieceData(receivingDataPiece, sendingDataPiece, turnType);
+      }
+
+      function rotate(turnType, handlingVisuals, handlingData) {
+        if (handlingVisuals == false && handlingData == true) {
+          const pieces = logPieces();
+          const edges = logEdges();
+          const corners = logCorners();
+          logSolveData(turnType, pieces, edges, corners);
+        }
+        if (handlingVisuals == true) {
+          rotateVisuals(turnType);
+          addToRotationLog('turn', turnTypeShortened(turnType));
+        }
+        if (handlingData == true) {
+          rotateData(turnType);
+        }
+      }
+
+      function doubleRotate(turnType, handlingVisuals, handlingData) {
+        if (turnType == 'f2') {
+          turnType = 'front';
+        } else if (turnType == 'b2') {
+          turnType = 'back';
+        } else if (turnType == 'u2') {
+          turnType = 'up';
+        } else if (turnType == 'd2') {
+          turnType = 'down';
+        } else if (turnType == 'x2') {
+          turnType = 'x';
+        } else if (turnType == 'y2') {
+          turnType = 'y';
+        }
+        rotate(turnType, handlingVisuals ,handlingData);
+        rotate(turnType, handlingVisuals, handlingData);
+      }
+
+      function storeTempData(sendingDataPiece) {
+        return tempData = {
+          name: sendingDataPiece.name,
+          front: sendingDataPiece.front,
+          back: sendingDataPiece.back,
+          left: sendingDataPiece.left,
+          right: sendingDataPiece.right,
+          up: sendingDataPiece.up,
+          down: sendingDataPiece.down
+        }
+      }
+
+      function shuffleCube() {
+        const turns = ['right', 'right prime', 'left', 'left prime', 'up', 'up prime',
+                      'down', 'down prime', 'front', 'front prime', 'back', 'back prime',
+                      'y', 'y prime', 'x', 'x prime', 'z', 'z prime'];
+        let turnType;
+        let i = 0;
+        buttonsDisable(true);
+
+        function shuffleCubeLoop() {
+          sleep(rotateDelay).then(() => {
+            turnType = turns[getRandomIntInRange(0, 17)];
+            console.log(turnType)
+            rotate(turnType, true, true);
+
+            i++;
+            if (i < 25) {
+              shuffleCubeLoop();
+            } else {
+              buttonsDisable(false);
+            }
+          })
+        }
+
+        shuffleCubeLoop();
+      }
+
+      function swapPieceData(receivingDataPiece, sendingDataPiece, turnType) {
+        
+        receivingDataPiece.name = sendingDataPiece.name;
+
+        if (turnType == 'right' || turnType == 'left prime' || turnType == 'x') {
+          receivingDataPiece.front = sendingDataPiece.down;
+          receivingDataPiece.back = sendingDataPiece.up;
+          receivingDataPiece.left = sendingDataPiece.left;
+          receivingDataPiece.right = sendingDataPiece.right;
+          receivingDataPiece.up = sendingDataPiece.front;
+          receivingDataPiece.down = sendingDataPiece.back;
+        } else if (turnType == 'right prime' || turnType == 'left' || turnType == 'x prime') {
+          receivingDataPiece.front = sendingDataPiece.up;
+          receivingDataPiece.back = sendingDataPiece.down;
+          receivingDataPiece.left = sendingDataPiece.left;
+          receivingDataPiece.right = sendingDataPiece.right;
+          receivingDataPiece.up = sendingDataPiece.back;
+          receivingDataPiece.down = sendingDataPiece.front;
+        } else if (turnType == 'up' || turnType == 'down prime' || turnType == 'y') {
+          receivingDataPiece.front = sendingDataPiece.right;
+          receivingDataPiece.back = sendingDataPiece.left;
+          receivingDataPiece.left = sendingDataPiece.front;
+          receivingDataPiece.right = sendingDataPiece.back;
+          receivingDataPiece.up = sendingDataPiece.up;
+          receivingDataPiece.down = sendingDataPiece.down;
+        } else if (turnType == 'up prime' || turnType == 'down' || turnType == 'y prime') {
+          receivingDataPiece.front = sendingDataPiece.left;
+          receivingDataPiece.back = sendingDataPiece.right;
+          receivingDataPiece.left = sendingDataPiece.back;
+          receivingDataPiece.right = sendingDataPiece.front;
+          receivingDataPiece.up = sendingDataPiece.up;
+          receivingDataPiece.down = sendingDataPiece.down;
+        } else if (turnType == 'front' || turnType == 'back prime' || turnType == 'z') {
+          receivingDataPiece.front = sendingDataPiece.front;
+          receivingDataPiece.back = sendingDataPiece.back;
+          receivingDataPiece.left = sendingDataPiece.down;
+          receivingDataPiece.right = sendingDataPiece.up;
+          receivingDataPiece.up = sendingDataPiece.left;
+          receivingDataPiece.down = sendingDataPiece.right;
+        } else if (turnType == 'front prime' || turnType == 'back' || turnType == 'z prime') {
+          receivingDataPiece.front = sendingDataPiece.front;
+          receivingDataPiece.back = sendingDataPiece.back;
+          receivingDataPiece.left = sendingDataPiece.up;
+          receivingDataPiece.right = sendingDataPiece.down;
+          receivingDataPiece.up = sendingDataPiece.right;
+          receivingDataPiece.down = sendingDataPiece.left;
+        }
+      }
+
+      function solveCube () {
+        if (!isSolved()) {
+          buttonsDisable(true)
+          clearSolvingLog();
+          solveCubeData();
+          solveCubeVisuals();
+        }
+      }
+
+      function solveCubeVisuals () {
+        let i = 0;
+
+        function solveCubeVisualsLoop() {
+          sleep(rotateDelay).then(() => {
+            const turnType = solvingLog[i].turnType;
+            cube.pieces = solvingLog[i].pieces;
+            updateEdges();
+            updateCorners();
+
+            if (i < solvingLog.length - 1) {
+              rotate(turnType, true, false);
+            }
+            
+
+            i++;
+            if (i < solvingLog.length) {
+              solveCubeVisualsLoop();
+            } else {
+              buttonsDisable(false)
+            }
+          })
+        }
+
+        solveCubeVisualsLoop();
+      }
+
+      function solveCubeData() {
+        solveFirstLayerCross();
+        solveFirstLayerCorners();
+        doubleRotate('x2', false, true);
+        solveSecondLayer();
+        solveFinalLayerCrossTop();
+        solveFinalLayerCrossEdges();
+        solveFinalLayerCornerPlacement();
+        solveFinalCorners();
+
+        const pieces = logPieces();
+        const edges = logEdges();
+        const corners = logCorners();
+        logSolveData('', pieces, edges, corners);
+      }
+
+      function clearSolvingLog() {
+        solvingLog.length = 0;
+      }
+
+      function solveFirstLayerCross() {
+
+        while (cube.pieces[15].front != cube.pieces[7].front || cube.pieces[4].up != cube.pieces[7].up ||
+               cube.pieces[13].right != cube.pieces[5].right || cube.pieces[4].up != cube.pieces[5].up ||
+               cube.pieces[10].back != cube.pieces[1].back || cube.pieces[4].up != cube.pieces[1].up ||
+               cube.pieces[12].left != cube.pieces[3].left || cube.pieces[4].up != cube.pieces[3].up) {
+
+          if (cube.pieces[15].front != cube.pieces[7].front || cube.pieces[4].up != cube.pieces[7].up){
+            const color_1 = cube.pieces[15].front[0].toUpperCase();
+            const color_2 = cube.pieces[4].up[0].toUpperCase();
+
+            for (x of cube.edges){
+              if (x.name.includes(color_1) && x.name.includes(color_2)) {
+
+                if (colorOnUp(x)) {
+
+                  if (colorOnLeft(x)) {
+                    rotate('left', false, true);
+                    rotate('front', false, true);
+
+                  } else if (colorOnRight(x)) {
+                    rotate('right prime', false, true);
+                    rotate('front prime', false, true);
+
+                  } else if (colorOnBack(x)) {
+                    doubleRotate('b2', false, true);
+                    doubleRotate('d2', false, true);
+                    doubleRotate('f2', false, true);
+                  } 
+
+                } else if (colorOnDown(x)) {
+
+                  if (colorOnLeft(x)){
+                    rotate('down', false, true);
+                  } else if (colorOnRight(x)) {
+                    rotate('down prime', false, true);
+                  } else if (colorOnBack(x)) {
+                    doubleRotate('d2', false, true);
+                  } 
+                  doubleRotate('f2', false, true) ;  
+
+                } else if (colorOnFront(x)) {
+                  if (colorOnLeft(x)){
+                    rotate('front', false, true);
+                  } else if (colorOnRight(x)) {
+                    rotate('front prime', false, true);
+                  }
+
+                } else if (colorOnBack(x)) {
+                  if (colorOnLeft(x)) {
+                    rotate('back', false, true);
+                    doubleRotate('d2', false, true);
+                    rotate('back prime', false, true);
+
+                  } else if (colorOnRight(x)) {
+                    rotate('back prime', false, true);
+                    doubleRotate('d2', false, true);
+                    rotate('back', false, true);
+                  }
+                  doubleRotate('f2', false, true);
+                }
+                break
+                
+              } 
+            }
+          }
+          
+          if (cube.pieces[15].front != cube.pieces[7].front || cube.pieces[4].up != cube.pieces[7].up) {
+            rotate('up prime', false, true)
+            rotate('right prime', false, true)
+            rotate('up', false, true)
+            rotate('front prime', false, true) 
+          }
+
+          rotate('y', false, true)
+
+        }
+      }
+
+      function solveFirstLayerCorners() {
+
+        while (cube.pieces[15].front != cube.pieces[8].front || cube.pieces[4].up != cube.pieces[8].up ||
+               cube.pieces[13].right != cube.pieces[8].right || 
+               cube.pieces[13].right != cube.pieces[2].right || cube.pieces[4].up != cube.pieces[2].up ||
+               cube.pieces[10].back != cube.pieces[2].back || 
+               cube.pieces[10].back != cube.pieces[0].back || cube.pieces[4].up != cube.pieces[0].up ||
+               cube.pieces[12].left != cube.pieces[0].left || 
+               cube.pieces[12].left != cube.pieces[6].left || cube.pieces[4].up != cube.pieces[6].up ||
+               cube.pieces[15].front != cube.pieces[6].front) {
+
+          if (cube.pieces[15].front != cube.pieces[8].front || cube.pieces[4].up != cube.pieces[8].up ||
+              cube.pieces[13].right != cube.pieces[8].right) {
+
+            const color_1 = cube.pieces[15].front[0].toUpperCase()
+            const color_2 = cube.pieces[4].up[0].toUpperCase()
+            const color_3 = cube.pieces[13].right[0].toUpperCase()
+
+            for (x of cube.corners) {
+              if (x.name.includes(color_1) &&  x.name.includes(color_2) && x.name.includes(color_3)) {
+                
+                if (colorOnDown(x)) {
+                  
+                  if (colorOnRight(x)){
+                    if (colorOnBack(x)) {
+                      rotate('down prime', false, true)
+                    }
+
+                  } else if (colorOnLeft(x)) {
+                    if (colorOnBack(x)) {
+                      doubleRotate('d2', false, true)
+                    } else if (colorOnFront(x)) {
+                      rotate('down', false, true)
+                    }
+                  }
+
+                } else if (colorOnUp(x)) {
+                  if (colorOnRight(x)) {
+                    if (colorOnBack(x)) {
+                      rotate('back prime', false, true)
+                      rotate('down prime', false, true)
+                      rotate('back', false, true)
+                    }
+
+                  } else if (colorOnLeft(x)) {
+                    if (colorOnBack(x)) {
+                      rotate('left prime', false, true)
+                      doubleRotate('d2', false, true)
+                      rotate('left', false, true)
+
+                    } else if (colorOnFront(x)) {
+                      rotate('left', false, true)
+                      rotate('down', false, true)
+                      rotate('left prime', false, true)
+                    }
+
+                  } 
+
+                } 
+                break
+              }
+            }
+          }
+
+          while (cube.pieces[15].front != cube.pieces[8].front || cube.pieces[4].up != cube.pieces[8].up ||
+                 cube.pieces[13].right != cube.pieces[8].right) {
+
+            putCornersInPlace();
+
+          }
+
+          rotate('y', false, true);
+        }
+      }
+
+      function solveSecondLayer() {
+
+        while (cube.pieces[15].front != cube.pieces[16].front || cube.pieces[13].right != cube.pieces[16].right ||
+               cube.pieces[15].front != cube.pieces[14].front || cube.pieces[12].left != cube.pieces[14].left ||
+               cube.pieces[10].back != cube.pieces[11].back || cube.pieces[13].right != cube.pieces[11].right ||
+               cube.pieces[10].back != cube.pieces[9].back || cube.pieces[12].left != cube.pieces[9].left) {
+
+          while (cube.pieces[15].front != cube.pieces[16].front || cube.pieces[16].right != cube.pieces[13].right) {
+
+            const color_1 = cube.pieces[13].right[0].toUpperCase()
+            const color_2 = cube.pieces[15].front[0].toUpperCase()
+
+            for (x of cube.edges) {
+              if (x.name.includes(color_1) && x.name.includes(color_2)) {
+                
+                if (colorOnUp(x)) {
+
+                  if (colorOnLeft(x)) {
+                    rotate('up prime', false, true);
+                  } else if (colorOnRight(x)) {
+                    rotate('up', false, true);
+                  } else if (colorOnBack(x)) {
+                    doubleRotate('u2', false, true);
+                  }
+
+                  if (cube.pieces[7].front == cube.pieces[15].front) {
+                    rightEdge()
+                  } else if (cube.pieces[7].front != cube.pieces[15].front) {
+                    rotate('up prime', false, true)
+                    rotate('y', false, true)
+                    leftEdge()
+                    rotate('y prime', false, true)
+                  }
+
+                } else if (colorOnFront(x)) {
+
+                  if (colorOnRight(x)) {
+                    rightEdge()
+                    doubleRotate('u2', false, true)
+                    rightEdge()
+
+                  } else if (colorOnLeft(x)) {
+                    leftEdge()
+                    if (cube.pieces[15].front == cube.pieces[14].front) { 
+                      rotate('up', false, true)
+                      rotate('y', false, true)
+                      leftEdge()
+                      rotate('y prime', false, true)
+                    } else if (cube.pieces[13].right == cube.pieces[14].front) {
+                      doubleRotate('u2', false, true)
+                      rightEdge()
+                    }
+                  }
+
+                } else if (colorOnBack(x)) {
+                  if (colorOnLeft(x)) {
+                    rotate('y prime', false, true)
+                    leftEdge()
+                    rotate('up', false, true)
+                    rotate('y', false, true)
+                  } else if (colorOnRight(x)) {
+                    rotate('y', false, true)
+                    rightEdge()
+                    rotate('up prime', false, true)
+                    rotate('y prime', false, true)
+                  }
+                }
+                break
+              }
+            }
+          }
+          rotate('y', false, true);
+        }
+      }
+
+      function solveFinalLayerCrossTop() {
+
+        if (cube.pieces[4].up != cube.pieces[1].up || cube.pieces[4].up != cube.pieces[3].up || 
+            cube.pieces[4].up != cube.pieces[5].up || cube.pieces[4].up != cube.pieces[7].up) {
+
+          if (cube.pieces[4].up == cube.pieces[1].up && cube.pieces[4].up == cube.pieces[7].up) {
+            rotate('up', false, true)
+            makeFinalCross()
+
+          } else if (cube.pieces[4].up == cube.pieces[3].up && cube.pieces[4].up == cube.pieces[5].up) {
+            makeFinalCross()
+
+          } else if (cube.pieces[4].up == cube.pieces[3].up && cube.pieces[4].up == cube.pieces[1].up ||
+                     cube.pieces[4].up == cube.pieces[3].up && cube.pieces[4].up == cube.pieces[7].up || 
+                     cube.pieces[4].up == cube.pieces[5].up && cube.pieces[4].up == cube.pieces[1].up || 
+                     cube.pieces[4].up == cube.pieces[5].up && cube.pieces[4].up == cube.pieces[7].up) {
+            while (cube.pieces[3].up != cube.pieces[4].up || cube.pieces[1].up != cube.pieces[4].up) {
+              rotate('y', false, true)
+            }
+            makeFinalCrossShortcut()
+
+          } else {
+            makeFinalCross()
+            doubleRotate('y2', false, true)
+            makeFinalCrossShortcut()
+          }
+
+        }
+
+      }
+
+      function solveFinalLayerCrossEdges() {
+
+        while (cube.pieces[7].front != cube.pieces[15].front || cube.pieces[5].right != cube.pieces[13].right ||
+               cube.pieces[1].back != cube.pieces[10].back || cube.pieces[3].left != cube.pieces[12].left) {
+
+          while (cube.pieces[7].front != cube.pieces[15].front) {
+            rotate('up', false, true)
+          }
+
+          if (cube.pieces[5].right != cube.pieces[13].right || cube.pieces[1].back != cube.pieces[10].back ||
+              cube.pieces[3].left != cube.pieces[12].left) {
+            if (cube.pieces[1].back == cube.pieces[10].back) {
+              cycleThroughEdges()
+              rotate('y prime', false, true)
+            } else if (cube.pieces[7].front == cube.pieces[15].front && cube.pieces[3].left == cube.pieces[12].left) {
+              doubleRotate('y2', false, true)
+            } else if (cube.pieces[7].front == cube.pieces[15].front && cube.pieces[5].right == cube.pieces[13].right) {
+              rotate('y prime', false, true)
+            }
+            cycleThroughEdges()
+          } else {
+            rotate('y', false, true)
+          }
+
+        }
+
+      }
+
+      function solveFinalLayerCornerPlacement() {
+
+        while ((!cube.pieces[8].name.includes(cube.pieces[15].front[0].toUpperCase()) ||
+                !cube.pieces[8].name.includes(cube.pieces[13].right[0].toUpperCase())) ||
+               (!cube.pieces[2].name.includes(cube.pieces[13].right[0].toUpperCase()) ||
+                !cube.pieces[2].name.includes(cube.pieces[10].back[0].toUpperCase())) ||
+               (!cube.pieces[0].name.includes(cube.pieces[10].back[0].toUpperCase()) ||
+                !cube.pieces[0].name.includes(cube.pieces[12].left[0].toUpperCase())) ||
+               (!cube.pieces[6].name.includes(cube.pieces[12].left[0].toUpperCase()) ||
+                !cube.pieces[6].name.includes(cube.pieces[15].front[0].toUpperCase()))) {
+
+          if (!(cube.pieces[8].name.includes(cube.pieces[15].front[0].toUpperCase()) &&
+                cube.pieces[8].name.includes(cube.pieces[13].right[0].toUpperCase())) &&
+              !(cube.pieces[2].name.includes(cube.pieces[13].right[0].toUpperCase()) &&
+                cube.pieces[2].name.includes(cube.pieces[10].back[0].toUpperCase())) &&
+              !(cube.pieces[0].name.includes(cube.pieces[10].back[0].toUpperCase()) &&
+                cube.pieces[0].name.includes(cube.pieces[12].left[0].toUpperCase())) &&
+              !(cube.pieces[6].name.includes(cube.pieces[12].left[0].toUpperCase()) &&
+                cube.pieces[6].name.includes(cube.pieces[15].front[0].toUpperCase()))) {
+            orientCorners();
+          }
+
+          while (!(cube.pieces[8].name.includes(cube.pieces[15].front[0].toUpperCase()) &&
+                   cube.pieces[8].name.includes(cube.pieces[13].right[0].toUpperCase()))) {
+            rotate('y', false, true);
+          }
+
+          orientCorners();
+        }          
+      }
+
+      function solveFinalCorners() {
+
+        while (cube.pieces[15].front != cube.pieces[8].front || cube.pieces[4].up != cube.pieces[8].up ||
+               cube.pieces[13].right != cube.pieces[8].right ||
+               cube.pieces[13].right != cube.pieces[2].right || cube.pieces[4].up != cube.pieces[2].up ||
+               cube.pieces[10].back != cube.pieces[2].back ||
+               cube.pieces[10].back != cube.pieces[0].back || cube.pieces[4].up != cube.pieces[0].up ||
+               cube.pieces[12].left != cube.pieces[0].left ||
+               cube.pieces[12].left != cube.pieces[6].left || cube.pieces[4].up != cube.pieces[6].up ||
+               cube.pieces[15].front != cube.pieces[6].front) {
+          
+          while (cube.pieces[4].up != cube.pieces[8].up)
+                putCornersInPlace();
+
+            rotate('up prime', false, true);
+        }
+      }
+
+      function putCornersInPlace() {
+        rotate('right prime', false, true);
+        rotate('down prime', false, true);
+        rotate('right', false, true);
+        rotate('down', false, true);
+      }
+
+      function rightEdge() {
+        rotate('up', false, true)
+        rotate('right', false, true)
+        rotate('up prime', false, true)
+        rotate('right prime', false, true)
+        rotate('up prime', false, true)
+        rotate('front prime', false, true)
+        rotate('up', false, true)
+        rotate('front', false, true)
+      }
+
+      function leftEdge() {
+        rotate('up prime', false, true)
+        rotate('left prime', false, true)
+        rotate('up', false, true)
+        rotate('left', false, true)
+        rotate('up', false, true)
+        rotate('front', false, true)
+        rotate('up prime', false, true)
+        rotate('front prime', false, true)
+      }
+
+      function makeFinalCross() {
+        rotate('front', false, true)
+        rotate('right', false, true)
+        rotate('up', false, true)
+        rotate('right prime', false, true)
+        rotate('up prime', false, true)
+        rotate('front prime', false, true)
+      }
+
+      function makeFinalCrossShortcut() {
+        rotate('front', false, true)
+        rotate('up', false, true)
+        rotate('right', false, true)
+        rotate('up prime', false, true)
+        rotate('right prime', false, true)
+        rotate('front prime', false, true)
+      }
+
+      function cycleThroughEdges() {
+        rotate('right', false, true)
+        rotate('up', false, true)
+        rotate('right prime', false, true)
+        rotate('up', false, true)
+        rotate('right', false, true)
+        doubleRotate('u2', false, true)
+        rotate('right prime', false, true)
+      }
+
+      function orientCorners() {
+        rotate('left prime', false, true)
+        rotate('up', false, true)
+        rotate('right', false, true)
+        rotate('up prime', false, true)
+        rotate('left', false, true)
+        rotate('up', false, true)
+        rotate('right prime', false, true)
+        rotate('up prime', false, true)
+      }
+
+      function logSolveData (turnType, pieces, edges, corners) {
+        const cubeState = {
+          turnType: turnType,
+          pieces: pieces,
+          edges: edges,
+          corners: corners
+        }
+        solvingLog.push(cubeState);
+      }
+
+      function logPieces() {
+        const loggedPieces = [];
+        for (piece of cube.pieces) {
+          loggedPieces.push(storeTempData(piece));
+        }
+        return loggedPieces;
+      }
+
+      function logEdges() {
+        const loggedEdges = [];
+        for (piece of cube.edges) {
+          loggedEdges.push(storeTempData(piece));
+        }
+        return loggedEdges;
+      }
+
+      function logCorners() {
+        const loggedCorners = [];
+        for (piece of cube.corners) {
+          loggedCorners.push(storeTempData(piece));
+        }
+        return loggedCorners;
+      }
+
+
+
+
+      function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+      }
+
+      function getRandomIntInRange(min, max) {
+        return Math.floor(Math.random() * (max - min + 1) + min);
+      }
+
+
+
+
+      function Pieces(name, front, back, left, right, up, down) {
+        this.name = name;
+
+        this.front = front;
+        this.back = back;
+        this.left = left;
+        this.right = right;
+        this.up = up;
+        this.down = down;
+      }
+
+      function colorOnFront(piece) {
+        if (piece.front != '.') {
+          return true
+        }
+      }
+
+      function colorOnBack(piece) {
+        if (piece.back != '.') {
+          return true
+        }
+      }
+
+      function colorOnLeft(piece) {
+        if (piece.left != '.') {
+          return true
+        }
+      }
+
+      function colorOnRight(piece) {
+        if (piece.right != '.') {
+          return true
+        }
+      }
+
+      function colorOnUp(piece) {
+        if (piece.up != '.') {
+          return true
+        }
+      }
+
+      function colorOnDown(piece) {
+        if (piece.down != '.') {
+          return true
+        }
+      }
+
+      function isSolved() {
+        if ((cube.pieces[4].up == cube.pieces[0].up && cube.pieces[4].up == cube.pieces[0].up &&
+             cube.pieces[4].up == cube.pieces[1].up && cube.pieces[4].up == cube.pieces[2].up &&
+             cube.pieces[4].up == cube.pieces[3].up && cube.pieces[4].up == cube.pieces[5].up &&
+             cube.pieces[4].up == cube.pieces[6].up && cube.pieces[4].up == cube.pieces[7].up) &&
+            (cube.pieces[10].back == cube.pieces[0].back && cube.pieces[10].back == cube.pieces[1].back &&
+             cube.pieces[10].back == cube.pieces[2].back && cube.pieces[10].back == cube.pieces[9].back &&
+             cube.pieces[10].back == cube.pieces[11].back && cube.pieces[10].back == cube.pieces[17].back &&
+             cube.pieces[10].back == cube.pieces[18].back && cube.pieces[10].back == cube.pieces[19].back) &&
+            (cube.pieces[12].left == cube.pieces[0].left && cube.pieces[12].left == cube.pieces[3].left &&
+             cube.pieces[12].left == cube.pieces[6].left && cube.pieces[12].left == cube.pieces[9].left &&
+             cube.pieces[12].left == cube.pieces[14].left && cube.pieces[12].left == cube.pieces[17].left &&
+             cube.pieces[12].left == cube.pieces[20].left && cube.pieces[12].left == cube.pieces[23].left) &&
+            (cube.pieces[13].right == cube.pieces[2].right && cube.pieces[13].right == cube.pieces[5].right &&
+             cube.pieces[13].right == cube.pieces[8].right && cube.pieces[13].right == cube.pieces[11].right &&
+             cube.pieces[13].right == cube.pieces[16].right && cube.pieces[13].right == cube.pieces[19].right &&
+             cube.pieces[13].right == cube.pieces[22].right && cube.pieces[13].right == cube.pieces[25].right) &&
+            (cube.pieces[15].front == cube.pieces[6].front && cube.pieces[15].front == cube.pieces[7].front &&
+             cube.pieces[15].front == cube.pieces[8].front && cube.pieces[15].front == cube.pieces[14].front &&
+             cube.pieces[15].front == cube.pieces[16].front && cube.pieces[15].front == cube.pieces[23].front &&
+             cube.pieces[15].front == cube.pieces[24].front && cube.pieces[15].front == cube.pieces[25].front) &&
+             (cube.pieces[21].down == cube.pieces[17].down && cube.pieces[21].down == cube.pieces[18].down &&
+             cube.pieces[21].down == cube.pieces[19].down && cube.pieces[21].down == cube.pieces[20].down &&
+             cube.pieces[21].down == cube.pieces[22].down && cube.pieces[21].down == cube.pieces[23].down &&
+             cube.pieces[21].down == cube.pieces[24].down && cube.pieces[21].down == cube.pieces[25].down)) {
+          return true
+        }
+      }
+
+      function addToRotationLog(whatToAdd, turnType) {
+        const element = document.getElementById('rotation-log-text');
+        const scrollWindow = document.getElementById('rotation-log');
+
+        if (whatToAdd == 'turn') {
+          if (element.textContent == '' || element.textContent.slice(-2) == '| ') {
+            element.textContent += turnType;
+          } else {
+            element.textContent += ', ' + turnType;
+          }
+        } else if (whatToAdd == 'divider') {
+          element.textContent += " | "
+        }
+        
+        scrollWindow.scrollTo(0, scrollWindow.scrollHeight);
+      }
+
+      function clearRotationLog() {
+        const element = document.getElementById('rotation-log-text');
+        element.textContent = ''
+      }
+
+      function turnTypeShortened(turnType) {
+        if (turnType == 'front') {
+          return 'F';
+        } else if (turnType == 'front prime') {
+          return "F'";
+        } else if (turnType == 'back') {
+          return 'B'
+        } else if (turnType == 'back prime') {
+          return "B'"
+        } else if (turnType == 'left') {
+          return 'L'
+        } else if (turnType == 'left prime') {
+          return "L'"
+        } else if (turnType == 'right') {
+          return 'R'
+        } else if (turnType == 'right prime') {
+          return "R'"
+        } else if (turnType == 'up') {
+          return 'U'
+        } else if (turnType == 'up prime') {
+          return "U'"
+        } else if (turnType == 'down') {
+          return 'D'
+        } else if (turnType == 'down prime') {
+          return "D'"
+        } else if (turnType == 'x') {
+          return 'x'
+        } else if (turnType == 'x prime') {
+          return "x'"
+        } else if (turnType == 'y') {
+          return 'y'
+        } else if (turnType == 'y prime') {
+          return "y'"
+        } else if (turnType == 'z') {
+          return 'z'
+        } else if (turnType == 'z prime') {
+          return "z'"
+        }
+      }
+
+      function buttonsDisable(cubeShufflingOrSolving) {
+        const buttons = document.getElementsByTagName("button");
+
+        if (cubeShufflingOrSolving == true) {
+          for (const button of buttons) {
+            button.disabled = true;
+          } 
+        } else if (cubeShufflingOrSolving == false) {
+          for (const button of buttons) {
+            button.disabled = false;
+          } 
+        }
+      }
+
+      function updateDelayRange() {
+        const slider = document.getElementById('delay-range');
+        const delayRangeText = document.getElementById('delay-range-text');
+        updateDelayRangeText(slider, delayRangeText);
+        updateRotateDelayValue(slider);
+      }
+
+      function updateDelayRangeText(slider, delayRangeText) {
+        delayRangeText.innerHTML = slider.value + " ms delay per rotation";
+      }
+
+      function updateRotateDelayValue(slider) {
+        rotateDelay = slider.value;
+      }
+        
+
+      initializeCube(); 
+      updateDelayRange();
+
+    </script>
+
+  </body>
+
+</html>
